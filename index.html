@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="container">
+    <h1>Your Name</h1>
+    <p>Developer • Designer • Builder</p>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Project One</h3>
+          <p>Short description of what it is and why it’s cool.</p>
+          <a href="#" class="btn">View</a>
+        </article>
+        <article class="card">
+          <h3>Project Two</h3>
+          <p>Another quick blurb. Link out to GitHub or a live demo.</p>
+          <a href="#" class="btn">View</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>About</h2>
+      <p>One paragraph bio. What you do, what you love, what you’re learning.</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <ul>
+        <li><a href="mailto:you@example.com">you@example.com</a></li>
+        <li><a href="https://github.com/your-username">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/your-handle">LinkedIn</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="container">
+    <small>© <span id="year"></span> Your Name</small>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
