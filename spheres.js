@@ -14,37 +14,58 @@ const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 container.appendChild(renderer.domElement);
+renderer.setClearColor(0x000000, 0);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
 
 // Camera position
-camera.position.z = 50;
+camera.position.z = 20;
 
 // Lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-directionalLight.position.set(-10, 10, 5);
-scene.add(directionalLight);
+const hemi = new THREE.HemisphereLight(
+  0xb7c7ff, // cool blue sky
+  0xf2b7c6, // warm pink ground
+  0.85
+);
+scene.add(hemi);
+const key = new THREE.DirectionalLight(0xdbe6ff, 0.9);
+key.position.set(-10, 12, 10);
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xffd6c9, 0.35);
+fill.position.set(10, -6, 12);
+scene.add(fill);
 
 // Sphere properties
-const sphereCount = 18;
+const sphereCount = 17;
 const spheres = [];
 const originalPositions = [];
 const mouse = new THREE.Vector2();
-const mouse3D = new THREE.Vector3();
 const raycaster = new THREE.Raycaster();
+// Interaction plane at cluster depth (z = -5)
+const interactionPlane = new THREE.Plane(
+  new THREE.Vector3(0, 0, 1),
+  -2
+);
+const hitPoint = new THREE.Vector3();
+let hasHitPoint = false;
+let isMouseDown = false;
 
 // Create spheres
-const geometry = new THREE.SphereGeometry(1, 32, 32);
+const geometry = new THREE.SphereGeometry(1.7, 64, 64);
 const material = new THREE.MeshStandardMaterial({
-  color: 0xf0f0f0,
-  roughness: 0.9,
+  color: 0xf7f7fb,
+  roughness: 0.75,
   metalness: 0.0,
 });
+material.transparent = false;
+material.opacity = 1;
+material.depthTest = true;
+material.depthWrite = true;
 
 // Initial cluster position (behind and around center)
-const clusterRadius = 8;
-const clusterCenter = new THREE.Vector3(0, 0, -5);
+const clusterRadius = 9;
+const clusterCenter = new THREE.Vector3(0, 0.5, 2);
 
 for (let i = 0; i < sphereCount; i++) {
   const sphere = new THREE.Mesh(geometry, material.clone());
@@ -52,7 +73,7 @@ for (let i = 0; i < sphereCount; i++) {
   // Random position within cluster
   const angle = Math.random() * Math.PI * 2;
   const radius = Math.random() * clusterRadius;
-  const height = (Math.random() - 0.5) * 6;
+  const height = (Math.random() - 0.5) * 5;
   
   sphere.position.set(
     clusterCenter.x + Math.cos(angle) * radius,
@@ -61,7 +82,7 @@ for (let i = 0; i < sphereCount; i++) {
   );
   
   // Random size variation
-  const scale = Math.random() * 0.5 + 0.8;
+  const scale = Math.random() * 0.6 + 0.7;
   sphere.scale.set(scale, scale, scale);
   
   // Store original position
@@ -79,18 +100,14 @@ for (let i = 0; i < sphereCount; i++) {
   scene.add(sphere);
 }
 
-// Mouse interaction
-let isMouseDown = false;
-
 function onMouseMove(event) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  
-  // Convert mouse to 3D space
+
   raycaster.setFromCamera(mouse, camera);
-  mouse3D.copy(raycaster.ray.direction);
-  mouse3D.multiplyScalar(20);
-  mouse3D.add(raycaster.ray.origin);
+
+  hasHitPoint =
+    raycaster.ray.intersectPlane(interactionPlane, hitPoint) !== null;
 }
 
 function onMouseDown() {
@@ -106,88 +123,90 @@ window.addEventListener('mousedown', onMouseDown);
 window.addEventListener('mouseup', onMouseUp);
 
 // Physics constants
-const interactionRadius = 8;
-const repulsionForce = 0.3;
-const damping = 0.85;
-const springStrength = 0.05;
-const regroupSpeed = 0.02;
+const interactionRadius = 12;
+const repulsionStrength = 0.9;
+const damping = 0.88;
+const returnStrength = 0.03;
 
 // Animation loop
 function animate() {
   requestAnimationFrame(animate);
-  
+
   spheres.forEach((sphere, index) => {
     const userData = sphere.userData;
-    const distanceToMouse = sphere.position.distanceTo(mouse3D);
-    
-    // Mouse interaction
-    if (distanceToMouse < interactionRadius && isMouseDown) {
-      userData.isInteracting = true;
-      const direction = new THREE.Vector3()
-        .subVectors(sphere.position, mouse3D)
-        .normalize();
-      
-      const force = (interactionRadius - distanceToMouse) / interactionRadius;
-      userData.velocity.add(direction.multiplyScalar(force * repulsionForce));
-    } else {
-      userData.isInteracting = false;
-      
-      // Regroup to original position
-      const direction = new THREE.Vector3()
-        .subVectors(originalPositions[index], sphere.position);
-      
-      const distance = direction.length();
-      if (distance > 0.1) {
-        direction.normalize();
-        userData.velocity.add(direction.multiplyScalar(regroupSpeed));
-      } else {
-        // Apply spring force to maintain cluster
-        userData.velocity.multiplyScalar(damping);
+
+    // 1. Mouse interaction (repulsion)
+    if (hasHitPoint) {
+      const toSphere = new THREE.Vector3()
+        .subVectors(sphere.position, hitPoint);
+      const d = toSphere.length();
+
+      if (d < interactionRadius) {
+        const t = 1 - d / interactionRadius;
+        const force = t * t * repulsionStrength;
+
+        toSphere.normalize();
+        userData.velocity.add(toSphere.multiplyScalar(force));
       }
     }
-    
-    // Apply velocity
+
+    // 2. Spring back to original position
+    const back = new THREE.Vector3()
+      .subVectors(originalPositions[index], sphere.position);
+    userData.velocity.add(back.multiplyScalar(returnStrength));
+
+    // 3. Apply velocity
     sphere.position.add(userData.velocity);
-    
-    // Apply damping
+
+    // 4. Apply damping
     userData.velocity.multiplyScalar(damping);
-    
-    // Collision detection between spheres
-    spheres.forEach((otherSphere, otherIndex) => {
-      if (index !== otherIndex) {
-        const distance = sphere.position.distanceTo(otherSphere.position);
-        const minDistance = sphere.scale.x + otherSphere.scale.x;
-        
-        if (distance < minDistance) {
-          const direction = new THREE.Vector3()
-            .subVectors(sphere.position, otherSphere.position)
-            .normalize();
-          
-          const overlap = minDistance - distance;
-          const force = overlap * 0.1;
-          
-          sphere.position.add(direction.multiplyScalar(force));
-          userData.velocity.add(direction.multiplyScalar(force * 0.5));
-        }
+
+    // 5. HARD SPHERE COLLISIONS (no melting)
+    for (let j = index + 1; j < spheres.length; j++) {
+      const a = sphere;
+      const b = spheres[j];
+
+      const delta = new THREE.Vector3().subVectors(b.position, a.position);
+      const dist = delta.length();
+
+      const ra = a.scale.x * 1.7; // must match SphereGeometry radius
+      const rb = b.scale.x * 1.7;
+
+      const minDist = ra + rb;
+
+      if (dist > 0.0001 && dist < minDist) {
+        const overlap = minDist - dist;
+
+        delta.multiplyScalar(1 / dist);
+        const correction = delta.multiplyScalar(overlap * 0.5);
+
+        a.position.addScaledVector(correction, -1);
+        b.position.addScaledVector(correction,  1);
+
+        a.userData.velocity.addScaledVector(correction, -0.05);
+        b.userData.velocity.addScaledVector(correction,  0.05);
       }
-    });
-    
-    // Boundary constraints
+    }
+
+    // 6. Boundary constraints (THIS GOES HERE 👇)
     const boundary = 25;
+
     if (Math.abs(sphere.position.x) > boundary) {
       sphere.position.x = Math.sign(sphere.position.x) * boundary;
       userData.velocity.x *= -0.5;
     }
+
     if (Math.abs(sphere.position.y) > boundary) {
       sphere.position.y = Math.sign(sphere.position.y) * boundary;
       userData.velocity.y *= -0.5;
     }
+
     if (sphere.position.z > 10 || sphere.position.z < -20) {
       sphere.position.z = Math.max(-20, Math.min(10, sphere.position.z));
       userData.velocity.z *= -0.5;
     }
   });
-  
+
   renderer.render(scene, camera);
 }
 
