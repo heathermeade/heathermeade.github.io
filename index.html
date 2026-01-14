@@ -3,56 +3,46 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Name</title>
+  <title>Heather Meade</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="container">
-    <h1>Your Name</h1>
-    <p>Developer • Designer • Builder</p>
-    <nav>
-      <a href="#projects">Projects</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
+  <header class="site-header">
+    <div class="logo">
+      <div class="logo-circle">
+        <span class="logo-initial">H</span>
+      </div>
+    </div>
+    <button class="hamburger-menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
   </header>
 
-  <main class="container">
-    <section id="projects">
-      <h2>Projects</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>Project One</h3>
-          <p>Short description of what it is and why it’s cool.</p>
-          <a href="#" class="btn">View</a>
-        </article>
-        <article class="card">
-          <h3>Project Two</h3>
-          <p>Another quick blurb. Link out to GitHub or a live demo.</p>
-          <a href="#" class="btn">View</a>
-        </article>
-      </div>
-    </section>
+  <div id="canvas-container">
+    <div id="three-container"></div>
+    <div class="gradient-strip"></div>
+    <div class="hero-content">
+      <h1 class="name">HEATHER MEADE</h1>
+      <p class="tagline">frontend enthusiast</p>
+    </div>
+  </div>
 
-    <section id="about">
-      <h2>About</h2>
-      <p>One paragraph bio. What you do, what you love, what you’re learning.</p>
-    </section>
-
-    <section id="contact">
-      <h2>Contact</h2>
-      <ul>
-        <li><a href="mailto:you@example.com">you@example.com</a></li>
-        <li><a href="https://github.com/your-username">GitHub</a></li>
-        <li><a href="https://www.linkedin.com/in/your-handle">LinkedIn</a></li>
-      </ul>
-    </section>
-  </main>
-
-  <footer class="container">
-    <small>© <span id="year"></span> Your Name</small>
+  <footer class="site-footer">
+    <div class="footer-line"></div>
+    <p class="footer-credits">
+      Made with <a href="https://svelte.dev" target="_blank">svelte</a>, <a href="https://astro.build" target="_blank">astro</a>, and <a href="https://threejs.org" target="_blank">three.js</a>.
+    </p>
   </footer>
 
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module" src="spheres.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
