@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heather Meade — Contact</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <button class="hamburger-menu" aria-label="Menu" aria-controls="sidebar" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+
+  <nav class="sidebar" id="sidebar" aria-hidden="true">
+    <button class="sidebar-close" id="sidebar-close" aria-label="Close menu">×</button>
+
+    <ul class="sidebar-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="work.html">Apple</a></li>
+      <li><a href="contact.html" aria-current="page">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div id="canvas-container">
+    <!-- Put two divs next to each other, one for description and one with project examples -->
+    <div class="work-page">
+        <div class="work-layout">
+      <!-- LEFT: Education -->
+      <section class="work-panel education-panel">
+        <h2 class="panel-title">Education</h2>
+
+        <div class="education-item">
+          <h2>University of Southern California</h2>
+          <h3>Iovine and Young Academy</h3>
+          <p class="degree">M.S. Integrated Design, Business, and Technology</p>
+          <p class="meta">Los Angeles, CA • 2025–2026</p>
+          <p class="description">
+            An interdisciplinary graduate program focused on designing and building human-centered products 
+            through creative problem solving, rapid prototyping, and cross-functional collaboration. 
+            I've developed skills in design thinking, product strategy, and technical development, 
+            preparing me to bring ideas from concept to execution through iterative design, user testing, 
+            and implementation.
+          </p>
+          <h3>Viterbi School of Engineering</h3>
+          <p class="degree">B.S. Computer Science and Business Administration</p>
+          <p class="meta">Los Angeles, CA • 2021–2025</p>
+          <p class="description">
+            An interdisciplinary undergraduate program through which I built core computer science 
+            skills in software development, algorithms, and systems thinking, while learning business 
+            fundamentals such as finance, marketing, and entrepreneurship.
+          </p>
+        </div>
+
+        <!-- Add more education items if needed -->
+      </section>
+
+      <!-- RIGHT: Work / Projects -->
+      <section class="work-panel projects-panel">
+        <h2 class="panel-title">Internships</h2>
+        <section class="work-panel projects-panel">
+  <h2 class="panel-title">Apple</h2>
+
+  <div class="project-list">
+    <article class="project-card">
+      <img
+        class="project-image"
+        src="images/ACP-image.png"
+        alt="Apple VisionPro preview"
+      />
+      <div class="project-info">
+        <h3 class="project-title">Software Engineering</h3>
+        <p class="degree">Wireless Technologies and Ecosystems</p>
+        <p class="project-description">
+          Developed four front-end Apple CarPlay interfaces in C, collaborating 
+          closely with senior engineers and designers to translate UI/UX requirements 
+          into functional, user-centered interfaces. Worked with over 15 cross-functional
+          team members to explore integration opportunities and enhance application
+          functionality within the Apple CarPlay ecosystem. Authored a comprehensive
+          API proposal detailing the design, functionality, and integration strategy
+          for new interfaces.
+        </p>
+      </div>
+    </article>
+
+    <article class="project-card">
+      <img
+        class="project-image"
+        src="images/AVP-image-side.webp"
+        alt="Apple CarPlay preview"
+      />
+      <div class="project-info">
+        <h3 class="project-title">Engineering Project Management</h3>
+        <p class="degree">Vision Products Group</p>
+        <p class="project-description">
+          Managed the tactical and strategic execution of two cross-functional 
+          projects, providing regular updates to project sponsors through weekly
+          meetings and written status reports. Evaluated project scope and risks 
+          in collaboration with engineers and stakeholders, developing mitigation 
+          strategies and initiating replanning efforts to address scope changes. 
+          Designed a standardized reporting system for system-level EPMs and engineering
+           teams by integrating an internal bug-tracking system with Tableau, informed by 
+           insights from 10 stakeholder interviews, to visualize key engineering metrics and 
+           automate real-time progress reporting.
+        </p>
+      </div>
+    </article>
+  </div>
+</section>
+      </section>
+    </div>
+    </div>
+  </div>
+
+  <!-- Sidebar JS only -->
+  <script>
+    const menuBtn = document.querySelector('.hamburger-menu');
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    const closeBtn = document.getElementById('sidebar-close');
+
+    function openSidebar() {
+      sidebar.classList.add('is-open');
+      backdrop.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('is-open');
+      backdrop.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    menuBtn.addEventListener('click', () => {
+      sidebar.classList.contains('is-open') ? closeSidebar() : openSidebar();
+    });
+
+    closeBtn.addEventListener('click', closeSidebar);
+    backdrop.addEventListener('click', closeSidebar);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSidebar();
+    });
+  </script>
+</body>
+</html>

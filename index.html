@@ -8,16 +8,23 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="logo">
-      <div class="logo-circle">
-        <span class="logo-initial">H</span>
-      </div>
-    </div>
     <button class="hamburger-menu" aria-label="Menu">
       <span></span>
       <span></span>
     </button>
   </header>
+
+<div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+<nav class="sidebar" id="sidebar" aria-hidden="true">
+  <button class="sidebar-close" id="sidebar-close" aria-label="Close menu">×</button>
+
+  <ul class="sidebar-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="work.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
 
   <div id="gradient-strip"></div>
   <div id="canvas-container">
@@ -35,8 +42,47 @@
     }
   </script>
   <script type="module" src="spheres.js"></script>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+ <script>
+  // Safe "year" (won't crash if #year doesn't exist)
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // Sidebar toggle
+  const menuBtn = document.querySelector('.hamburger-menu');
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  const closeBtn = document.getElementById('sidebar-close');
+
+  function openSidebar() {
+    sidebar.classList.add('is-open');
+    sidebar.setAttribute('aria-hidden', 'false');
+    backdrop.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove('is-open');
+    sidebar.setAttribute('aria-hidden', 'true');
+    backdrop.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  menuBtn.addEventListener('click', () => {
+    const isOpen = sidebar.classList.contains('is-open');
+    isOpen ? closeSidebar() : openSidebar();
+  });
+
+  closeBtn.addEventListener('click', closeSidebar);
+  backdrop.addEventListener('click', closeSidebar);
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeSidebar();
+  });
+
+  // Close sidebar after clicking a link
+  sidebar.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', closeSidebar);
+  });
+</script>
 </body>
 </html>
