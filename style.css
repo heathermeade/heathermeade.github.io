@@ -418,3 +418,97 @@ h2 {
   opacity: 1;
   background: rgba(255, 255, 255, 0.12);
 }
+
+.projects-page-wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 7rem 2rem 3rem;
+}
+
+.page-title-wrap {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  margin: 0;
+  color: white;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.page-subtitle {
+  margin: 0.6rem 0 0;
+  color: rgba(255,255,255,0.88);
+  font-size: 1rem;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 18px;
+  padding: 1.2rem;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+@media (max-width: 900px) {
+  .page-title {
+    font-size: 2.4rem;
+  }
+  .project-card {
+    grid-template-columns: 1fr;
+  }
+  .project-image {
+    height: 180px;
+  }
+}
+
+/* ===== Project cards: 2 layouts + 1/3 screen height on hover ===== */
+
+.work-project {
+  position: relative;
+  overflow: hidden;
+  transition: height 260ms ease, transform 260ms ease, box-shadow 260ms ease, background 260ms ease, border-color 260ms ease;
+  will-change: height, transform;
+}
+
+/* Hover: card becomes 1/3 of viewport height + “lift” */
+.work-project:hover,
+.work-project:focus-within {
+  height: 70vh;
+  transform: scale(1.02);
+  z-index: 5;
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.22);
+}
+
+/* Mobile — disable centering */
+@media (max-width: 900px) {
+  .work-project-card:hover,
+  .work-project-card:focus-within {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: auto;
+    height: auto;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .projects-page-wrap::before {
+    display: none;
+  }
+}
+
+
