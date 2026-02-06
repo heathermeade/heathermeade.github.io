@@ -45,7 +45,7 @@
           <div class="projects-list">
 
             <article class="project-card work-project glass-card">
-              <!-- <div class ="project-compact"> -->
+              <div class ="project-preview">
                 <img class="project-image" src="images/LS-logo.png" alt="LegacySphere preview" />
                 <div class="project-info">
                   <h3 class="project-title">LegacySphere</h3>
@@ -54,65 +54,49 @@
                     spaces. Built with SwiftUI + RealityKit, featuring interactive 3D objects and structured
                     storytelling flows.
                   </p>
-               <!-- </div> -->
+                </div>
               </div>
-              <!--
-              <div class="project-expanded">
-                <div class="expanded-left">
-                  <h3 class="expanded-title">LegacySphere</h3>
-                  <p class="expanded-subtitle">SwiftUI • RealityKit • Cloud</p>
+              <div class="project-expanded" aria-hidden="true"></div>
+            </article>
 
-                  <ul class="expanded-bullets">
-                    <li><strong>What it is:</strong> A spatial “digital memoir” platform for AVP.</li>
-                    <li><strong>My role:</strong> Lead dev + product direction.</li>
-                    <li><strong>Highlights:</strong> Nested spaces, interactive objects, storytelling flow.</li>
-                  </ul>
-
-                  <div class="expanded-actions">
-                    <a class="project-action" href="#" target="_blank" rel="noopener noreferrer">Case Study</a>
-                    <a class="project-action" href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <article class="project-card work-project glass-card">
+              <div class="project-preview">
+                  <img class="project-image" src="images/Disco-Logo-Final.png" alt="Disco-Music preview" />
+                  <div class="project-info">
+                    <h3 class="project-title">Disco</h3>
+                    <p class="project-description">
+                      A discovery app connecting music to place and culture. Explore music by region, save
+                      playlists, and learn the cultural context behind genres and artists.
+                    </p>
                   </div>
+              </div>
+            </article>
+
+            <article class="project-card work-project glass-card">
+              <div class="project-preview">
+                <!-- <img class="project-image" src="images/RoloLogo.PNG" alt="RoboBuddy preview" /> -->
+                <div class="project-info">
+                  <h3 class="project-title">RoboBuddy</h3>
+                  <p class="project-description">
+                    Designed an Apple Vision Pro app featuring a custom 3D animated robot using Reality Composer Pro and
+                    SwiftUI. Implemented ARKit image and world tracking to detect a poster and enable an immersive experience where the
+                    robot appears and dances for the user.
+                  </p>
                 </div>
+              </div>
+            </article>
 
-                <div class="expanded-right">
-                  <img class="expanded-image" src="images/legacy-sphere.png" alt="LegacySphere preview large" />
+            <article class="project-card work-project glass-card">
+              <div class="project-preview">
+                <!-- <img class="project-image" src="images/RoloLogo.PNG" alt="RoboBuddy preview" /> -->
+                <div class="project-info">
+                  <h3 class="project-title">NXTMode</h3>
+                  <p class="project-description">
+                    Developed front-end of a fashion-tech e-commerce platform using React JS and styled-components.
+                    Implemented responsive UI components, integrated APIs for product and merchant features, and collaborated with
+                    designers to create a polished, cross-platform user experience.
+                  </p>
                 </div>
-              </div>
-              -->
-            </article>
-
-            <article class="project-card work-project glass-card">
-              <img class="project-image" src="images/Disco-Logo-Final.png" alt="Disco-Music preview" />
-              <div class="project-info">
-                <h3 class="project-title">Disco</h3>
-                <p class="project-description">
-                  A discovery app connecting music to place and culture. Explore music by region, save
-                  playlists, and learn the cultural context behind genres and artists.
-                </p>
-              </div>
-            </article>
-
-            <article class="project-card work-project glass-card">
-              <!-- <img class="project-image" src="images/RoloLogo.PNG" alt="RoboBuddy preview" /> -->
-              <div class="project-info">
-                <h3 class="project-title">RoboBuddy</h3>
-                <p class="project-description">
-                  Designed an Apple Vision Pro app featuring a custom 3D animated robot using Reality Composer Pro and
-                  SwiftUI. Implemented ARKit image and world tracking to detect a poster and enable an immersive experience where the
-                  robot appears and dances for the user.
-                </p>
-              </div>
-            </article>
-
-            <article class="project-card work-project glass-card">
-              <!-- <img class="project-image" src="images/RoloLogo.PNG" alt="RoboBuddy preview" /> -->
-              <div class="project-info">
-                <h3 class="project-title">NXTMode</h3>
-                <p class="project-description">
-                  Developed front-end of a fashion-tech e-commerce platform using React JS and styled-components.
-                  Implemented responsive UI components, integrated APIs for product and merchant features, and collaborated with
-                  designers to create a polished, cross-platform user experience.
-                </p>
               </div>
             </article>
           </div>
@@ -150,3 +134,29 @@
   </script>
 </body>
 </html>
+
+<script>
+  const workProjects = document.querySelectorAll(
+    '.project-card.work-project'
+  );
+
+  workProjects.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      if (window.innerWidth <= 900) return;
+
+      card.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    });
+
+    card.addEventListener('focusin', () => {
+      if (window.innerWidth <= 900) return;
+
+      card.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    });
+  });
+</script>
