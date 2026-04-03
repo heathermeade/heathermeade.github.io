@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Heather Meade — Contact</title>
+  <title>Heather Meade — Projects</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -56,7 +56,11 @@
                   </p>
                 </div>
               </div>
-              <div class="project-expanded" aria-hidden="true"></div>
+              <div class="project-expanded" aria-hidden="true">
+                <video muted loop playsinline>
+                  <source src="images/AVP-demo.mov" type="video/mp4" />
+                </video>
+              </div>
             </article>
 
             <article class="project-card work-project glass-card">
@@ -69,6 +73,11 @@
                       playlists, and learn the cultural context behind genres and artists.
                     </p>
                   </div>
+              </div>
+              <div class="project-expanded" aria-hidden="true">
+                <video muted loop playsinline>
+                  <source src="images/Disco-demo.mov" type="video/mp4" />
+                </video>
               </div>
             </article>
 
@@ -83,6 +92,11 @@
                     robot appears and dances for the user.
                   </p>
                 </div>
+              </div>
+              <div class="project-expanded" aria-hidden="true">
+                <video muted loop playsinline>
+                  <source src="images/RoboBuddy-demo.mp4" type="video/mp4" />
+                </video>
               </div>
             </article>
 
@@ -136,27 +150,45 @@
 </html>
 
 <script>
-  const workProjects = document.querySelectorAll(
-    '.project-card.work-project'
-  );
+const workProjects = document.querySelectorAll('.project-card.work-project');
 
-  workProjects.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      if (window.innerWidth <= 900) return;
+workProjects.forEach(card => {
+  card.addEventListener('click', () => {
+    if (window.innerWidth <= 900) return;
 
-      card.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
+    const isExpanded = card.classList.contains('is-expanded');
+    const video = card.querySelector('video');
+
+    // Collapse all cards first
+     workProjects.forEach(c => {
+      c.classList.remove('is-expanded');
+      const v = c.querySelector('video');
+      if (v) { v.pause(); v.currentTime = 0; }
     });
 
-    card.addEventListener('focusin', () => {
-      if (window.innerWidth <= 900) return;
-
-      card.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
-    });
+    // If it wasn't already expanded, expand it
+    if (!isExpanded) {
+      card.classList.add('is-expanded');
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (video) video.play();
+    }
   });
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.project-card.work-project')) {
+    workProjects.forEach(c => {
+      c.classList.remove('is-expanded');
+      const v = c.querySelector('video');
+      if (v) { v.pause(); v.currentTime = 0; }
+    });
+  }
+});
+
+// Click outside to collapse
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.project-card.work-project')) {
+    workProjects.forEach(c => c.classList.remove('is-expanded'));
+  }
+});
 </script>
