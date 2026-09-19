@@ -221,7 +221,7 @@ body {
 
 .work-layout {
   display: grid;
-  grid-template-columns: 420px 1fr;
+  grid-template-columns: 420px minmax(0, 1fr);
   gap: 2rem;
   align-items: start;
 }
@@ -499,11 +499,11 @@ h2 {
   .page-title {
     font-size: 2.4rem;
   }
-  .project-card {
+  .projects-page-wrap .project-card {
     grid-template-columns: 1fr;
   }
-  .project-image,
-  .project-image-frame {
+  .projects-page-wrap .project-image,
+  .projects-page-wrap .project-image-frame {
     height: 180px;
   }
 }
@@ -674,4 +674,37 @@ h2 {
 
 .project-expanded-image--demo {
   transform: scale(1.6);
+}
+
+/* Experience page: preserve readable copy before progressively stacking. */
+.experience-page .project-card {
+  grid-template-columns: 340px minmax(0, 1fr);
+}
+
+/* Move Education and the experience images above their content together. */
+@media (max-width: 1200px) {
+  .experience-page .work-layout {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .experience-page .project-card {
+    grid-template-columns: 1fr;
+  }
+
+  .experience-page .project-image,
+  .experience-page .project-image-frame {
+    height: 160px;
+  }
+}
+
+.experience-page .projects-panel,
+.experience-page .project-card,
+.experience-page .project-info {
+  min-width: 0;
+}
+
+.experience-page .project-description,
+.experience-page .degree {
+  overflow-wrap: anywhere;
 }
