@@ -351,6 +351,39 @@ h2 {
   display: block;
 }
 
+/* Remove transparent source padding while matching Disco's visible image height. */
+.project-image-frame {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.project-image-frame .project-image {
+  height: 100%;
+  border-radius: 0;
+}
+
+.project-card.work-project .project-image-frame .project-image--robobuddy {
+  transform: translateY(0) scale(1.8);
+}
+
+.project-card.work-project .project-image-frame .project-image--nxtmode {
+  transform: translateY(0) scale(1.59);
+}
+
+.project-card.work-project .project-image-frame .project-image--diabetes {
+  transform: translateY(0) scale(1.35);
+}
+
+.project-image-frame .project-image--aot {
+  transform: scale(1.7);
+}
+
+.project-image-frame .project-image--paramount {
+  transform: scale(1.1);
+}
+
 /* Text */
 .project-title {
   margin: 0;
@@ -371,7 +404,8 @@ h2 {
   .project-card {
     grid-template-columns: 1fr;
   }
-  .project-image {
+  .project-image,
+  .project-image-frame {
     height: 160px;
   }
 }
@@ -468,7 +502,8 @@ h2 {
   .project-card {
     grid-template-columns: 1fr;
   }
-  .project-image {
+  .project-image,
+  .project-image-frame {
     height: 180px;
   }
 }
@@ -520,6 +555,41 @@ h2 {
   align-items: start;
 }
 
+.project-card.work-project:has(.project-expanded) {
+  position: relative;
+  padding-bottom: 2.5rem;
+  cursor: pointer;
+}
+
+.project-card.work-project:has(.project-expanded)::after {
+  content: "Tap to View";
+  position: absolute;
+  bottom: 0.65rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #e1e4e9;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+  transition: opacity 180ms ease;
+}
+
+.project-card.work-project.is-expanded::after {
+  opacity: 0;
+}
+
+@media (max-width: 900px) {
+  .project-card.work-project:has(.project-expanded) {
+    padding-bottom: 1.2rem;
+    cursor: default;
+  }
+
+  .project-card.work-project:has(.project-expanded)::after {
+    display: none;
+  }
+}
+
 /* If no image exists, let text span full width */
 .project-card.work-project:not(:has(.project-image)) .project-info {
   grid-column: 1 / -1;
@@ -527,7 +597,7 @@ h2 {
 
 .work-project.is-expanded {
   height: 70vh;
-  transform: scale(1.02);
+  transform: none;
   z-index: 5;
   border-color: rgba(255, 255, 255, 0.35);
   background: rgba(255, 255, 255, 0.13);
@@ -558,3 +628,50 @@ h2 {
   border-radius: 10px;
 }
 
+.project-video {
+  width: min(100%, 960px);
+  aspect-ratio: 16 / 9;
+}
+
+.project-video--portrait {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: 332 / 720;
+}
+
+.project-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+}
+
+.project-card.work-project.is-expanded .project-expanded-gallery {
+  gap: 1.25rem;
+  overflow: hidden;
+}
+
+.project-expanded-image-frame {
+  width: calc(50% - 0.625rem);
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.project-expanded-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.project-expanded-image--closeup {
+  transform: scale(1.55);
+}
+
+.project-expanded-image--demo {
+  transform: scale(1.6);
+}

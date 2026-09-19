@@ -1,0 +1,14 @@
+---
+description: Preserve the established visual language and layout of the portfolio
+alwaysApply: true
+---
+
+# Preserve the Portfolio Design
+
+- Treat the existing site as the source of truth for visual and interaction design.
+- Before changing or adding a section, inspect adjacent sections and shared styles/components.
+- Reuse the established fonts, type scale, colors, spacing, containers, grids, responsive behavior, and component patterns.
+- Extend existing classes, tokens, and components where practical instead of introducing near-duplicates.
+- Keep new content aligned with the current section hierarchy and visual rhythm.
+- Do not restyle existing elements or introduce a new design direction unless the user explicitly requests it.
+- When a request requires a visual departure, limit that departure to the requested scope and preserve the surrounding design.
