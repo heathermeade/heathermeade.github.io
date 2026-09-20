@@ -579,17 +579,6 @@ h2 {
   opacity: 0;
 }
 
-@media (max-width: 900px) {
-  .project-card.work-project:has(.project-expanded) {
-    padding-bottom: 1.2rem;
-    cursor: default;
-  }
-
-  .project-card.work-project:has(.project-expanded)::after {
-    display: none;
-  }
-}
-
 /* If no image exists, let text span full width */
 .project-card.work-project:not(:has(.project-image)) .project-info {
   grid-column: 1 / -1;

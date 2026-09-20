@@ -232,16 +232,21 @@
 const workProjects = document.querySelectorAll('.project-card.work-project');
 
 workProjects.forEach(card => {
-  card.addEventListener('click', () => {
-    if (window.innerWidth <= 900) return;
-    if (!card.querySelector('.project-expanded')) return;
+  card.addEventListener('click', (event) => {
+    const expandedContent = card.querySelector('.project-expanded');
+    if (!expandedContent) return;
+
+    // Keep video controls and gallery content interactive while the card is open.
+    if (card.classList.contains('is-expanded') && event.target.closest('.project-expanded')) return;
 
     const isExpanded = card.classList.contains('is-expanded');
     const video = card.querySelector('video');
 
     // Collapse all cards first
-     workProjects.forEach(c => {
+    workProjects.forEach(c => {
       c.classList.remove('is-expanded');
+      const expanded = c.querySelector('.project-expanded');
+      if (expanded) expanded.setAttribute('aria-hidden', 'true');
       const v = c.querySelector('video');
       if (v) { v.pause(); v.currentTime = 0; }
     });
@@ -249,8 +254,9 @@ workProjects.forEach(card => {
     // If it wasn't already expanded, expand it
     if (!isExpanded) {
       card.classList.add('is-expanded');
+      expandedContent.setAttribute('aria-hidden', 'false');
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      if (video) video.play();
+      if (video) video.play().catch(() => {});
     }
   });
 });
@@ -259,16 +265,11 @@ document.addEventListener('click', (e) => {
   if (!e.target.closest('.project-card.work-project')) {
     workProjects.forEach(c => {
       c.classList.remove('is-expanded');
+      const expanded = c.querySelector('.project-expanded');
+      if (expanded) expanded.setAttribute('aria-hidden', 'true');
       const v = c.querySelector('video');
       if (v) { v.pause(); v.currentTime = 0; }
     });
-  }
-});
-
-// Click outside to collapse
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.project-card.work-project')) {
-    workProjects.forEach(c => c.classList.remove('is-expanded'));
   }
 });
 </script>
