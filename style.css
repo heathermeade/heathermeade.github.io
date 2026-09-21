@@ -381,7 +381,7 @@ h2 {
 }
 
 .project-card.work-project .project-image-frame .project-image--pupil {
-  transform: scale(1.15);
+  transform: translateY(-8%) scale(1.39);
 }
 
 .project-image-frame .project-image--aot {
