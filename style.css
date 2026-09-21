@@ -376,6 +376,14 @@ h2 {
   transform: translateY(0) scale(1.35);
 }
 
+.project-card.work-project .project-image-frame .project-image--comfort-buddies {
+  transform: scale(1.45);
+}
+
+.project-card.work-project .project-image-frame .project-image--pupil {
+  transform: scale(1.15);
+}
+
 .project-image-frame .project-image--aot {
   transform: scale(1.7);
 }
