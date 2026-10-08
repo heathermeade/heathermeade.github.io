@@ -28,7 +28,7 @@ body {
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 1.5rem 2rem;
   z-index: 100;
@@ -51,84 +51,36 @@ body {
   color: #4a5568;
 }
 
-.hamburger-menu {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 0;
-  margin-left: auto;
-}
-
-.hamburger-menu span {
-  width: 24px;
-  height: 2px;
-  background-color: var(--text-white);
-  display: block;
-}
-
-/* Sidebar */
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: min(320px, 85vw);
-  padding: 1.25rem 1.25rem 2rem;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-left: 1px solid rgba(255, 255, 255, 0.25);
-
-  transform: translateX(100%);
-  transition: transform 220ms ease;
-  z-index: 10001; /* above header + canvas */
-}
-
-.sidebar.is-open {
-  transform: translateX(0);
-}
-
-.sidebar-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.22);
-  z-index: 10000;
-}
-
-.sidebar-close {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 2rem;
-  line-height: 1;
-  cursor: pointer;
-  margin-left: auto;
-  display: block;
-}
-
-.sidebar-links {
+.top-nav ul {
   list-style: none;
-  padding: 1.5rem 0 0;
+  padding: 0;
   margin: 0;
   display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
 }
 
-.sidebar-links a {
+.top-nav a {
   color: white;
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
   letter-spacing: 0.02em;
-  opacity: 0.95;
+  opacity: 0.85;
+  transition: opacity 180ms ease;
 }
 
-.sidebar-links a:hover {
+.top-nav a:hover,
+.top-nav a:focus-visible,
+.top-nav a[aria-current="page"] {
   opacity: 1;
+}
+
+.top-nav a[aria-current="page"] {
   text-decoration: underline;
+  text-underline-offset: 0.3em;
 }
 
 /* Canvas Container */
@@ -208,6 +160,22 @@ body {
   }
   .site-header {
     padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    justify-content: center;
+    padding: 0.9rem 1rem;
+  }
+
+  .top-nav ul {
+    justify-content: center;
+    gap: 0.4rem 1rem;
+  }
+
+  .top-nav a {
+    font-size: 0.9rem;
   }
 }
 
